@@ -1,32 +1,33 @@
+const axios = require('axios');
 
+const form = document.querySelector('.search-form');
+const gallery = document.querySelector(".gallery")
 
-const searchButton = document.querySelector('button');
-// const gallery = document.querySelector(".gallery")
+const searchForImages = () => {
+  return axios({
+    method: 'get',
+    url: 'https://pixabay.com/api/?key=24835588-34c67f39a9342d1bd89adf1b2&q=yellow+flowers&image_type=photo',
+  }).then(response => {
+      const { data } = response;
+      return data;
+      console.log(data);
+  });
+};
 
-// const searchForImages = () => {
-//   axios({
-//     method: 'get',
-//     url: 'https://pixabay.com/api/?key=24835588-34c67f39a9342d1bd89adf1b2&q=yellow+flowers&image_type=photo',
-//   }).then(response => {
-//       const { data } = response;
-//       console.log(data);
-//   });
-// };
+const placeImages = () => {
+    searchForImages().then(element => createMarkup(element));
+}
 
-// const placeImages = () => {
-//     searchForImages
-// }
+const createMarkup = (elements) => {
+    const markup = elements.map(element => {
+        return `<div>
+                <img src="${element.webformatURL}"/>
+            </div>`;
+    }).join("");
+    gallery.innerHTML = markup;
+}
 
-// const createMarkup = (elements) => {
-//     const markup = elements.map(element => {
-//         return `<div>
-//                 <img src="${element.webformatURL}"/>
-//             </div>`;
-//     }).join("");
-//     gallery.innerHTML = markup;
-// }
-
-searchButton.addEventListener('click', (event) => {
-    event.preventDefault;
-    console.log("xd");
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    placeImages();
 });
