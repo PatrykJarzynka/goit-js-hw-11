@@ -10,12 +10,11 @@ const searchForImages = () => {
   }).then(response => {
       const { data } = response;
       return data;
-      console.log(data);
   });
 };
 
 const placeImages = () => {
-    searchForImages().then(element => createMarkup(element));
+    searchForImages().then(element => createMarkup(element.hits));
 }
 
 const createMarkup = (elements) => {
