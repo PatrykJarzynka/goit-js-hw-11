@@ -37,13 +37,12 @@ const createMarkup = elements => {
   gallery.innerHTML = markup;
 };
 
-let test = new SimpleLightbox('.gallery a');
 
 form.addEventListener('submit', event => {
   event.preventDefault();
     placeImages();
 });
 
-
+let test = new SimpleLightbox('.gallery a');
 
 
