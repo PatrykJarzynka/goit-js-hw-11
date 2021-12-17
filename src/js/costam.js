@@ -1,12 +1,14 @@
 import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import Notiflix from 'notiflix';
 
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
 const input = document.querySelector('input[name="searchQuery"]');
 const moreImages = document.querySelector('.load-more');
-let previousName = ' ';
+let previousName = '';
 let page = 1;
 let sumOfImages = 0;
 
@@ -24,7 +26,6 @@ const searchForImages = async newName => {
       url: `https://pixabay.com/api/?key=24835588-34c67f39a9342d1bd89adf1b2&q=${newName}&${params}`,
     });
     const { data } = response;
-    console.log(data)
     return data;
   } catch (error) {
     console.log(error.message);
@@ -40,7 +41,17 @@ const placeImages = () => {
 
 const createMarkup = (elements, newName, allHits) => {
   sumOfImages += elements.length;
-  if(sumOfImages >= allHits) console.log("")
+  if (allHits === 0) {
+    Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+    moreImages.classList.add('not__visable');
+    gallery.innerHTML = "";
+    return;
+  }
+  else if (sumOfImages >= allHits) {
+    moreImages.classList.add('not__visable');
+    Notify.info("We're sorry, but you've reached the end of search results.");
+    return;
+  }
   const markup = elements
     .map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
       return `<div class="photo-card">
@@ -69,10 +80,11 @@ const createMarkup = (elements, newName, allHits) => {
     gallery.innerHTML = markup;
   } else gallery.insertAdjacentHTML('beforeend', markup);
   previousName = newName;
+  moreImages.classList.remove('not__visable');
 };
 
 const loadMore = () => {
-  page = page + 1;
+  page += 1;
   placeImages();
 };
 
@@ -81,7 +93,6 @@ form.addEventListener('submit', event => {
   if (input.value !== previousName) {
     page = 1;
     placeImages();
-    moreImages.classList.remove("not__visable");
   } else return;
 });
 
