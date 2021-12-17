@@ -36,22 +36,22 @@ const placeImages = () => {
   const name = input.value;
   searchForImages(name)
     .then(element => createMarkup(element.hits, name, element.totalHits))
-    .then(() => new SimpleLightbox('.gallery a'));
+    .then(() => new SimpleLightbox('.gallery a').refresh());
 };
 
 const createMarkup = (elements, newName, allHits) => {
   sumOfImages += elements.length;
   if (allHits === 0) {
-    Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+    Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     moreImages.classList.add('not__visable');
-    gallery.innerHTML = "";
+    gallery.innerHTML = '';
     return;
-  }
-  else if (sumOfImages >= allHits) {
+  } else if (sumOfImages >= allHits) {
     moreImages.classList.add('not__visable');
     Notify.info("We're sorry, but you've reached the end of search results.");
     return;
   }
+  Notify.success(`Hooray! We found ${allHits} images.`);
   const markup = elements
     .map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
       return `<div class="photo-card">
