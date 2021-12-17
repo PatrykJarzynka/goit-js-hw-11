@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -21,7 +21,9 @@ const searchForImages = async name => {
 
 const placeImages = () => {
   const name = input.value;
-  searchForImages(name).then(element => createMarkup(element.hits));
+  searchForImages(name)
+    .then(element => createMarkup(element.hits))
+    .then(() => new SimpleLightbox('.gallery a'));
 };
 
 const createMarkup = elements => {
@@ -31,18 +33,16 @@ const createMarkup = elements => {
                 <a href="${element.largeImageURL}">
                     <img src="${element.webformatURL}" alt="${element.tags}"/>
                 </a>
-            </div>`;
+                </div>
+            `;
     })
     .join('');
   gallery.innerHTML = markup;
 };
 
-
 form.addEventListener('submit', event => {
   event.preventDefault();
-    placeImages();
+  placeImages();
 });
 
 let test = new SimpleLightbox('.gallery a');
-
-
