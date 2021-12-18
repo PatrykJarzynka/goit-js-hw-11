@@ -15,7 +15,7 @@ const searchForImages = async newName => {
   try {
     const params = new URLSearchParams({
       page: page,
-      per_page: 40,
+      per_page: 100,
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
@@ -25,6 +25,7 @@ const searchForImages = async newName => {
       url: `https://pixabay.com/api/?key=24835588-34c67f39a9342d1bd89adf1b2&q=${newName}&${params}`,
     });
     const { data } = response;
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error.message);
@@ -45,11 +46,7 @@ const createMarkup = (elements, newName, allHits) => {
     moreImages.classList.add('not__visable');
     gallery.innerHTML = '';
     return;
-  } else if (sumOfImages >= allHits) {
-    moreImages.classList.add('not__visable');
-    Notify.info("We're sorry, but you've reached the end of search results.");
-    return;
-  }
+  } 
   const markup = elements
     .map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
       return `<div class="photo-card">
@@ -80,6 +77,11 @@ const createMarkup = (elements, newName, allHits) => {
   } else gallery.insertAdjacentHTML('beforeend', markup);
   previousName = newName;
   moreImages.classList.remove('not__visable');
+  if (sumOfImages >= allHits) {
+  moreImages.classList.add('not__visable');
+  Notify.info("We're sorry, but you've reached the end of search results.");
+  return
+}
 };
 
 const loadMore = () => {
@@ -90,6 +92,7 @@ const loadMore = () => {
 form.addEventListener('submit', event => {
   event.preventDefault();
   if (input.value !== previousName) {
+    sumOfImages = 0;
     page = 1;
     placeImages();
   } else return;
