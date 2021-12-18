@@ -2,7 +2,6 @@ import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import Notiflix from 'notiflix';
 
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
