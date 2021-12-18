@@ -15,7 +15,7 @@ const searchForImages = async newName => {
   try {
     const params = new URLSearchParams({
       page: page,
-      per_page: 100,
+      per_page: 40,
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
