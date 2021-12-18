@@ -51,7 +51,6 @@ const createMarkup = (elements, newName, allHits) => {
     Notify.info("We're sorry, but you've reached the end of search results.");
     return;
   }
-  Notify.success(`Hooray! We found ${allHits} images.`);
   const markup = elements
     .map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
       return `<div class="photo-card">
@@ -77,6 +76,7 @@ const createMarkup = (elements, newName, allHits) => {
     })
     .join('');
   if (newName !== previousName) {
+    Notify.success(`Hooray! We found ${allHits} images.`);
     gallery.innerHTML = markup;
   } else gallery.insertAdjacentHTML('beforeend', markup);
   previousName = newName;
