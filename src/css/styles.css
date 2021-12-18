@@ -62,7 +62,27 @@ input[type="text"]:focus{
   object-fit: cover;
 }
 
+.load-more{
+  display: block;
+  margin-left:auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background-color: rgb(23, 55, 143);
+  color:#fff;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 17px;
+  text-transform: uppercase;
+  border-radius: 5px;
+}
 
+
+button{
+  cursor: pointer;
+}
 
 
 
